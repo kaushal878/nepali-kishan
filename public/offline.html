@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नेपाली किसान - अफलाइन</title>
+    <meta name="description" content="नेपाली किसान - अफलाइन मोड">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Mukta', sans-serif;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: #1f2937;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 40px;
+        }
+        
+        h1 {
+            color: #1f2937;
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        
+        p {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        
+        .features {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            text-align: left;
+        }
+        
+        .features h3 {
+            color: #1f2937;
+            font-size: 18px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #4b5563;
+            font-size: 14px;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            color: #22c55e;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 24px;
+        }
+        
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3);
+        }
+        
+        .retry-btn:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            display: inline-flex;
+            align-items: center;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        
+        .status::before {
+            content: "•";
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .offline-tips {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 24px;
+            text-align: left;
+        }
+        
+        .offline-tips h4 {
+            color: #0c4a6e;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .offline-tips ul {
+            list-style: none;
+            color: #075985;
+            font-size: 14px;
+        }
+        
+        .offline-tips li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .offline-tips li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #0ea5e9;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🌾</div>
+        
+        <div class="status">
+            अफलाइन मोड
+        </div>
+        
+        <h1>नेपाली किसान</h1>
+        
+        <p>
+            तपाईं अहिले अफलाइन हुनुहुन्छ। केही सुविधाहरू अझै उपलब्ध छन्, तर केही सेवाहरूलाई इन्टरनेट कनेक्सन आवश्यक छ।
+        </p>
+        
+        <div class="features">
+            <h3>अफलाइन सुविधाहरू</h3>
+            <ul class="feature-list">
+                <li>पहिले देखिएको बजार मूल्यहरू</li>
+                <li>क्यासेड कृषि जानकारी</li>
+                <li>सेभ गरिएका ट्युटोरियलहरू</li>
+                <li>अफलाइन क्यालेन्डर</li>
+                <li>पशुपालन रेकर्डहरू</li>
+            </ul>
+        </div>
+        
+        <div class="offline-tips">
+            <h4>अफलाइन सुझावहरू</h4>
+            <ul>
+                <li>पहिले नै महत्त्वपूर्ण जानकारी डाउनलोड गर्नुहोस्</li>
+                <li>नियमित रूपमा एप खोलेर क्यास अपडेट गर्नुहोस्</li>
+                <li>इन्टरनेट कनेक्सन हुँदा डाटा सिन्क गर्नुहोस्</li>
+            </ul>
+        </div>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            पुन: प्रयास गर्नुहोस्
+        </button>
+        
+        <p style="margin-top: 16px; font-size: 12px; color: #9ca3af;">
+            कनेक्सन पुन: स्थापित गर्नुहोस् र पुन: प्रयास गर्नुहोस्
+        </p>
+    </div>
+    
+    <script>
+        // Check if service worker is supported
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function(registration) {
+                console.log('Service Worker is ready');
+            }).catch(function(error) {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+        
+        // Auto-retry when online
+        window.addEventListener('online', function() {
+            window.location.reload();
+        });
+        
+        // Show connection status
+        function updateConnectionStatus() {
+            const status = document.querySelector('.status');
+            if (navigator.onLine) {
+                status.textContent = 'अनलाइन';
+                status.style.background = '#f0fdf4';
+                status.style.color = '#16a34a';
+            } else {
+                status.textContent = 'अफलाइन मोड';
+                status.style.background = '#fef2f2';
+                status.style.color = '#dc2626';
+            }
+        }
+        
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+        updateConnectionStatus();
+    </script>
+</body>
+</html>

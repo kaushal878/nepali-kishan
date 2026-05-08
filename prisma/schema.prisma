@@ -1,0 +1,454 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  phone         String?   @unique
+  password      String?
+  role          Role      @default(FARMER)
+  district      String?
+  province      String?
+  address       String?
+  language      String    @default("ne")
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  farms         Farm[]
+  posts         CommunityPost[]
+  comments      Comment[]
+  aiQueries     AIQuery[]
+  weatherAlerts WeatherAlert[]
+  notifications Notification[]
+  calendarEvents CalendarEvent[]
+
+  @@map("users")
+}
+
+model Farm {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  area        Float    // in hectares
+  soilType    String?
+  altitude    Float?   // in meters
+  coordinates Json?    // {lat, lng}
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  crops        Crop[]
+  livestock    Livestock[]
+  weatherLogs  WeatherLog[]
+
+  @@map("farms")
+}
+
+model Crop {
+  id           String   @id @default(cuid())
+  farmId       String
+  name         String
+  nameEn       String?
+  type         String
+  variety      String?
+  plantedDate  DateTime?
+  harvestDate  DateTime?
+  status       CropStatus @default(PLANNED)
+  area         Float    // in hectares
+  expectedYield Float?  // in kg
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  farm         Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  diseases     CropDisease[]
+  fertilizers  CropFertilizer[]
+  calendarEvents CalendarEvent[]
+
+  @@map("crops")
+}
+
+model Disease {
+  id          String   @id @default(cuid())
+  name        String
+  nameEn      String?
+  description String?
+  descriptionEn String?
+  symptoms    String[]
+  symptomsEn  String[]
+  causes      String[]
+  causesEn    String[]
+  prevention  String[]
+  preventionEn String[]
+  chemicalTreatment String?
+  chemicalTreatmentEn String?
+  organicTreatment  String?
+  organicTreatmentEn String?
+  urgency     Urgency  @default(LOW)
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  crops       CropDisease[]
+
+  @@map("diseases")
+}
+
+model CropDisease {
+  id        String   @id @default(cuid())
+  cropId    String
+  diseaseId String
+  detectedAt DateTime @default(now())
+  severity  Severity @default(LOW)
+  status    String   @default("active")
+  notes     String?
+  imageUrl  String?
+
+  // Relations
+  crop      Crop    @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  disease   Disease @relation(fields: [diseaseId], references: [id], onDelete: Cascade)
+
+  @@unique([cropId, diseaseId])
+  @@map("crop_diseases")
+}
+
+model Fertilizer {
+  id          String   @id @default(cuid())
+  name        String
+  nameEn      String?
+  type        String   // organic, chemical
+  npk         String   // N-P-K ratio
+  description String?
+  descriptionEn String?
+  usage       String?
+  usageEn     String?
+  price       Float?   // per kg
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  crops       CropFertilizer[]
+
+  @@map("fertilizers")
+}
+
+model CropFertilizer {
+  id           String   @id @default(cuid())
+  cropId       String
+  fertilizerId String
+  appliedDate  DateTime @default(now())
+  quantity     Float    // in kg
+  notes        String?
+
+  // Relations
+  crop         Crop       @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  fertilizer   Fertilizer @relation(fields: [fertilizerId], references: [id], onDelete: Cascade)
+
+  @@unique([cropId, fertilizerId, appliedDate])
+  @@map("crop_fertilizers")
+}
+
+model Livestock {
+  id          String   @id @default(cuid())
+  farmId      String
+  type        String   // cow, buffalo, goat, chicken, etc.
+  breed       String?
+  count       Int
+  age         Int?     // in months
+  weight      Float?   // in kg
+  health      String   @default("healthy")
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  farm        Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  vaccinations Vaccination[]
+
+  @@map("livestock")
+}
+
+model Vaccination {
+  id           String   @id @default(cuid())
+  livestockId  String
+  name         String
+  nameEn       String?
+  vaccineDate  DateTime
+  nextDueDate  DateTime?
+  veterinarian String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  livestock    Livestock @relation(fields: [livestockId], references: [id], onDelete: Cascade)
+
+  @@map("vaccinations")
+}
+
+model WeatherLog {
+  id          String   @id @default(cuid())
+  farmId      String
+  date        DateTime
+  temperature Float?   // in Celsius
+  humidity    Float?   // in percentage
+  rainfall    Float?   // in mm
+  windSpeed   Float?   // in km/h
+  description String?
+  source      String?  // API source
+  createdAt   DateTime @default(now())
+
+  // Relations
+  farm        Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+
+  @@unique([farmId, date])
+  @@map("weather_logs")
+}
+
+model WeatherAlert {
+  id          String   @id @default(cuid())
+  userId      String
+  type        AlertType
+  title       String
+  titleEn     String?
+  message     String
+  messageEn   String?
+  severity    Severity @default(LOW)
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("weather_alerts")
+}
+
+model MarketPrice {
+  id          String   @id @default(cuid())
+  commodity   String
+  commodityEn String?
+  market      String
+  marketEn    String?
+  price       Float    // per kg
+  unit        String   @default("kg")
+  date        DateTime
+  source      String?
+  createdAt   DateTime @default(now())
+
+  @@unique([commodity, market, date])
+  @@map("market_prices")
+}
+
+model CommunityPost {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  content     String
+  images      String[] // array of image URLs
+  category    String?
+  tags        String[]
+  likes       Int      @default(0)
+  views       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+
+  @@map("community_posts")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  content   String
+  likes     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model GovernmentScheme {
+  id          String   @id @default(cuid())
+  title       String
+  titleEn     String?
+  description String
+  descriptionEn String?
+  category    String
+  eligibility String?
+  eligibilityEn String?
+  benefits    String?
+  benefitsEn  String?
+  application String?
+  applicationEn String?
+  contact     String?
+  contactEn   String?
+  deadline    DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("government_schemes")
+}
+
+model AIQuery {
+  id          String   @id @default(cuid())
+  userId      String
+  question    String
+  answer      String?
+  category    String?  // disease, crop, weather, etc.
+  confidence  Float?   // AI confidence score
+  tokens      Int?     // tokens used
+  responseTime Int?    // response time in ms
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ai_queries")
+}
+
+model CalendarEvent {
+  id          String   @id @default(cuid())
+  userId      String?
+  cropId      String?
+  title       String
+  description String?
+  type        EventType
+  date        DateTime
+  reminder    Boolean  @default(false)
+  reminderAt  DateTime?
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  crop        Crop?    @relation(fields: [cropId], references: [id], onDelete: Cascade)
+
+  @@map("calendar_events")
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  titleEn     String?
+  message     String
+  messageEn   String?
+  type        NotificationType
+  isRead      Boolean  @default(false)
+  data        Json?    // additional data
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model Tutorial {
+  id          String   @id @default(cuid())
+  title       String
+  titleEn     String?
+  description String
+  descriptionEn String?
+  videoUrl    String?
+  thumbnailUrl String?
+  category    String
+  tags        String[]
+  duration    Int?     // in seconds
+  views       Int      @default(0)
+  likes       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("tutorials")
+}
+
+// Enums
+enum Role {
+  FARMER
+  EXPERT
+  ADMIN
+}
+
+enum CropStatus {
+  PLANNED
+  PLANTED
+  GROWING
+  HARVESTED
+  FAILED
+}
+
+enum Urgency {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AlertType {
+  WEATHER
+  DISEASE
+  PEST
+  FROST
+  RAIN
+  DROUGHT
+}
+
+enum EventType {
+  PLANTING
+  FERTILIZING
+  IRRIGATION
+  HARVESTING
+  PESTICIDE
+  VACCINATION
+  INSPECTION
+  OTHER
+}
+
+enum NotificationType {
+  WEATHER
+  DISEASE
+  MARKET
+  COMMUNITY
+  REMINDER
+  SYSTEM
+}

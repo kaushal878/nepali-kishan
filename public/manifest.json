@@ -1,0 +1,125 @@
+{
+  "name": "नेपाली किसान - Nepali Kishan",
+  "short_name": "Nepali Kishan",
+  "description": "AI-powered agricultural app for Nepali farmers with crop recommendations, disease detection, weather alerts, and market prices",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e",
+  "orientation": "portrait-primary",
+  "categories": ["agriculture", "education", "utilities"],
+  "lang": "ne",
+  "dir": "ltr",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI Chatbot",
+      "short_name": "AI Chat",
+      "description": "Chat with AI farming assistant",
+      "url": "/ai-chat",
+      "icons": [{ "src": "/icons/chat-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Disease Detection",
+      "short_name": "Disease",
+      "description": "Detect crop diseases with AI",
+      "url": "/disease-detection",
+      "icons": [{ "src": "/icons/disease-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Market Prices",
+      "short_name": "Prices",
+      "description": "Check latest market prices",
+      "url": "/market-prices",
+      "icons": [{ "src": "/icons/prices-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Weather",
+      "short_name": "Weather",
+      "description": "Get weather updates",
+      "url": "/weather",
+      "icons": [{ "src": "/icons/weather-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Home screen with farming features"
+    },
+    {
+      "src": "/screenshots/chat.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AI chatbot interface"
+    },
+    {
+      "src": "/screenshots/disease.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Disease detection feature"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  }
+}
