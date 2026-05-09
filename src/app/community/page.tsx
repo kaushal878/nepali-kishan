@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   MessageCircle, 
@@ -168,7 +168,7 @@ export default function CommunityForum() {
     setLoading(false)
   })
 
-  useState(() => {
+  useEffect(() => {
     filterPosts()
   }, [posts, selectedCategory, searchTerm, sortBy])
 

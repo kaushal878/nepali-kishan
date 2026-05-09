@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   BookOpen, 
@@ -23,7 +23,7 @@ import {
   Calendar,
   Filter as FilterIcon,
   Bookmark as BookmarkIcon,
-  Share as ShareIcon
+  Share2 as ShareIcon
 } from 'lucide-react'
 import { MainLayout } from '@/components/layout/main-layout'
 import { Button } from '@/components/ui/button'
@@ -321,7 +321,7 @@ export default function LearningCenter() {
     setLoading(false)
   })
 
-  useState(() => {
+  useEffect(() => {
     filterContent()
   }, [tutorials, learningPaths, selectedCategory, selectedType, selectedDifficulty, searchTerm])
 
@@ -850,7 +850,7 @@ export default function LearningCenter() {
                     {selectedTutorial.isBookmarked ? 'सेभ गरिएको' : 'बुकमार्क गर्नुहोस्'}
                   </Button>
                   <Button variant="outline">
-                    <Share className="h-4 w-4 mr-2" />
+                    <ShareIcon className="h-4 w-4 mr-2" />
                     सेयर गर्नुहोस्
                   </Button>
                 </div>

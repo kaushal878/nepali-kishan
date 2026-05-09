@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Heart, 
@@ -242,7 +242,7 @@ export default function LivestockManagement() {
     setLoading(false)
   })
 
-  useState(() => {
+  useEffect(() => {
     filterLivestock()
   }, [livestock, selectedType, selectedHealth, searchTerm])
 

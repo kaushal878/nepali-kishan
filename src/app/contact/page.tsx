@@ -12,11 +12,10 @@ import {
   Users,
   Building,
   Globe,
-  Facebook,
-  Twitter,
-  Youtube,
-  Instagram,
-  Linkedin,
+  Share2,
+  MessageSquare,
+  Play,
+  Camera,
   ChevronRight,
   CheckCircle,
   AlertCircle,
@@ -137,11 +136,11 @@ export default function Contact() {
   ]
 
   const socialLinks = [
-    { name: 'Facebook', icon: Facebook, url: '#', color: 'bg-blue-600' },
-    { name: 'Twitter', icon: Twitter, url: '#', color: 'bg-sky-500' },
-    { name: 'YouTube', icon: Youtube, url: '#', color: 'bg-red-600' },
-    { name: 'Instagram', icon: Instagram, url: '#', color: 'bg-pink-600' },
-    { name: 'LinkedIn', icon: Linkedin, url: '#', color: 'bg-blue-700' }
+    { name: 'Facebook', icon: Share2, url: '#', color: 'bg-blue-600' },
+    { name: 'Twitter', icon: MessageSquare, url: '#', color: 'bg-sky-500' },
+    { name: 'YouTube', icon: Play, url: '#', color: 'bg-red-600' },
+    { name: 'Instagram', icon: Camera, url: '#', color: 'bg-pink-600' },
+    { name: 'LinkedIn', icon: Users, url: '#', color: 'bg-blue-700' }
   ]
 
   const faqs = [
